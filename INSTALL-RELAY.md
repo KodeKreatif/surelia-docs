@@ -32,7 +32,7 @@ domain.com
 ## Packages
 
 1. ucspi-tcp
-1. surelia-qmail-relay-only
+1. surelia-qmail-relay-only (https://github.com/mdamt/netqmail/tree/debian)
 
 ## Steps
 
