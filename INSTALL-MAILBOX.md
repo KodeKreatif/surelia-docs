@@ -30,7 +30,7 @@ sureliabox
 ### Setup Unix user
 Create the Unix user with standard Unix commands. Disable the shell
 ```
-sudo usermod -s /bin/false sureliabox
+sudo adduser --system --shell /bin/false --disabled-password --disabled-login sureliabox
 ```
 ### Setup mailboxes
 Go to shell as the `sureliabox` by doing this as root:
