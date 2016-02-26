@@ -58,4 +58,49 @@ echo "domain1.com:sureliabox-domain1com" >> /etc/qmail/virtualdomains
 echo domain1.com >> /etc/qmail/rcpthosts
 ```
 Make sure you don't truncate the file by typing `>` instead of `>>`.
-### Turn on qmail
+
+### Setup incoming SMTP server
+1. Create SMTP service file at `/etc/qmail/services/smtp/run` to be run by `supervise` program from `daemontools` package
+```
+#!/bin/sh
+
+QMAILDUID=`id -u qmaild`
+NOFILESGID=`id -g qmaild`
+MAXSMTPD=`cat /var/lib/qmail/control/concurrencyincoming`
+LOCAL=`head -1 /var/lib/qmail/control/me`
+
+
+if [ ! -f /etc/qmail/rcpthosts ]; then
+    echo "No /etc/qmail/rcpthosts!"
+    echo "Refusing to start SMTP listener because it'll create an open relay"
+    exit 1
+fi
+
+tcprules /etc/qmail/tcp.smtp.cdb /tmp/tcp.smtp < /etc/qmail/tcp.smtp
+
+exec softlimit -m 7000000 \
+    tcpserver -v -R -l "$LOCAL" -x /etc/qmail/tcp.smtp.cdb -c "$MAXSMTPD" \
+        -u "$QMAILDUID" -g "$NOFILESGID" 0 smtp qmail-smtpd 2>&1
+
+```
+2. Make sure it is runnable
+```
+chmod +x /etc/qmail/services/smtp/run
+```
+3. Create the corresponding systemd service. So it can be run by standard systemd commands. The file is `/etc/systemd/service/surelia-smtpd.service`
+```
+[Unit]
+Description=Surelia SMTP server
+After=network.target auditd.service
+
+[Service]
+ExecStart=/usr/bin/supervise /etc/qmail/service/smtpd
+ExecReload=svc -h /etc/qmail/service/smtpd/
+KillMode=process
+Restart=on-failure
+
+[Install]
+Alias=smtp.service
+
+
+```
