@@ -4,7 +4,11 @@
     [RELAY]--(smtp/qmqp)>[MAILBOX] 
 ```
 
-This setup is for collecting emails and put them into mailboxes. This setup supports multi domains out of the box.
+This setup is for collecting emails and put them into mailboxes. This setup supports multi domains out of the box. We have a directory containing all domains and mailboxes. The structure looks like this:
+```
+~sureliabox/mails/<DOMAIN>/<USER>@<DOMAIN>/
+```
+`sureliabox` is the Unix user name used to keep the mailbox on the storage.
 
 ## Information needed
 1. Accepted domains (`INFO01`). This is a list of domains accepted in the system.
