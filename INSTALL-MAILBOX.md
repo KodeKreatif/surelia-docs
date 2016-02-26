@@ -42,14 +42,14 @@ Go to shell as the `sureliabox` by doing this as root:
 su -l -s /bin/bash sureliabox
 ```
 
-Then create the .qmail mailbox configuration. Do this in the home directory of the `sureliabox`:
+Then create the .qmail mailbox configuration. Do this in the home directory of the `sureliabox` and as `sureliabox`. Doing this as other users will make the emails undeliverable to the mailbox:
 ```
 cd
-echo "|/usr/local/bin/qmail-wildcard-store mails/domain1.com" > .qmail-domain1com
+echo "|/usr/local/bin/qmail-wildcard-store mails/domain1.com" > .qmail-domain1com-default
 chmod 644 .qmail-domain1com
 mkdir -p mails/domain1.com
 ```
-Repeat for each domain in `INFO01`.
+Repeat for each domain in `INFO01`. Please note the patterns.
 
 ### Setup qmail configuration
 Add the domain name into qmail's configuration. Do this as root:
