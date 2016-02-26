@@ -6,9 +6,9 @@
 
 This setup is for collecting emails and put them into mailboxes. This setup supports multi domains out of the box. We have a directory containing all domains and mailboxes. The structure looks like this:
 ```
-~sureliabox/mails/<DOMAIN>/<USER>@<DOMAIN>/
+~sureliabox/mails/<DOMAIN>/<USER>@<DOMAIN>/<Maildir>
 ```
-`sureliabox` is the Unix user name used to keep the mailbox on the storage.
+`sureliabox` is the Unix user name used to keep the mailbox on the storage. The `<Maildir>` is the mailbox format (https://en.wikipedia.org/wiki/Maildir) used in Surelia.
 
 ## Information needed
 1. Accepted domains (`INFO01`). This is a list of domains accepted in the system.
